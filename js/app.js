@@ -1,3 +1,6 @@
+
+
+
 const loadAllCategories = async () => {
   const res = await fetch(
     "https://openapi.programming-hero.com/api/news/categories"
@@ -44,31 +47,23 @@ const allData = data.data
 displayCategory(allData)
 }
 
+
 const displayCategory = async(allData)=>{
+let foundIteam = allData.length
 
- 
+const iteam = document.getElementById("found-iteam")
+iteam.innerText= foundIteam
+
+const cardContainer= document.getElementById("categories-card")
+const spinner = document.getElementById('spinner-container')
+spinner.classList.add("d-none")
+cardContainer.textContent="";
 
 
-  const cardContainer= document.getElementById("categories-card")
-
-  const spinner = document.getElementById('spinner-container')
-  spinner.classList.add("d-none")
-  
-  cardContainer.textContent="";
-
-
-  
-  
-
-  allData.forEach(data => {
-
-  const {_id, total_view, thumbnail_url, details, author, title}= data
-
-  
-
-  const {name,img,published_date} = author
-
- const div = document.createElement("div")
+allData.forEach(data => {
+const {_id, total_view, details, author, title, image_url}= data
+const {name,img,published_date} = author
+const div = document.createElement("div")
  div.classList.add("col")
 
  div.innerHTML= `
@@ -76,7 +71,7 @@ const displayCategory = async(allData)=>{
             <div class="row">
 
                     <div class="col-md-4">
-                        <img src="${thumbnail_url}" class="img-fluid rounded-start h-100" alt="...">
+                        <img src="${image_url}" class="img-fluid rounded-start h-100" alt="...">
                     </div>   
 
                     <div class="col-md-8">
@@ -89,7 +84,7 @@ const displayCategory = async(allData)=>{
                                     <div class="ps-2">
                                         <p>${name ? name  : "N/A"}</p>
 
-                                        <p>${published_date.length >10 ? published_date.slice(0,11): published_date}</p>
+                                        <p>${published_date}</p>
                                     </div>
                                 <p>${total_view ? total_view : "N/A"}</P>
                                 
