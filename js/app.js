@@ -31,22 +31,15 @@ categoriesDisplay();
 
 
 
-const newsCategory =async (id)=>{
-const res= await fetch(`https://openapi.programming-hero.com/api/news/category/${id}`)
+const newsCategory = async (category_id)=>{
+const res= await fetch(`https://openapi.programming-hero.com/api/news/category/${category_id}`)
 const data= await res.json()
 
-return data.data
+const allData = data.data
+
+displayCategory(allData)
+
+
+  
 }
 
-const displayCategory = async() =>{
-
-    const data= await newsCategory()
-    
-    data.forEach(category =>{ 
-     const {news_id,}=category
-
-
-        })
-
-
-}
