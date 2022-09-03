@@ -80,7 +80,7 @@ const displayCategory = async(allData)=>{
                                     <div class="ps-2">
                                         <p>${name !=="system" ? name  : "N/A"}</p>
 
-                                        <p>${published_date}</p>
+                                        <p>${published_date.length >10 ? published_date.slice(0,11): published_datee}</p>
                                     </div>
                                 <p>${total_view ? total_view +"M" : "N/A"}</P>
                                 
@@ -135,11 +135,11 @@ const displayNewsDetails = async (allData) =>{
     
     <div class="p-4">
             <div class="d-flex align-items-center justify-content-between">
-                <p>Author: ${name !=="system" ? name  : "N/A"}</p>
+                <p>Author : ${name !=="system" ? name  : "N/A"}</p>
                 <img class="author-image" src="${img}">
             </div>
-            <p>Total View: ${total_view ? total_view +"M" : "N/A"}</p>
-            <p>Publish Date and Time : ${published_date}</p>
+            <p>Total View : ${total_view ? total_view +"M" : "N/A"}</p>
+            <p>Publish Date : ${published_date.length >10 ? published_date.slice(0,11): published_date}</p>
         </div>
     
     `
