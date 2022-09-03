@@ -21,6 +21,7 @@ data.forEach((categories) => {
 
 
   const li = document.createElement('li')
+  
   li.innerHTML=`
      <a  class="px-4  text-secondary" href="#" onclick="newsCategory('${category_id}')">${category_name}</a>
   
@@ -83,7 +84,7 @@ const div = document.createElement("div")
                                     <img class="author-img" src="${img}">
                                     <div class="ps-2">
                                         <p>${name ? name  : "N/A"}</p>
-
+                                        
                                         <p>${published_date}</p>
                                     </div>
                                 <p>${total_view ? total_view : "N/A"}</P>
@@ -134,7 +135,7 @@ const displayNewsDetails = async (allData) =>{
 
    const data = allData.forEach(data=>{
 
-    const {total_view, author,thumbnail_url,}= data
+    const {total_view, author,thumbnail_url,title,details}= data
     const {name,published_date, img} = author
     
     // console.log(total_view)
@@ -144,12 +145,22 @@ const displayNewsDetails = async (allData) =>{
     modalBody.innerHTML= `
     
     <div class="p-4">
+
+            <h4>${title}</h4>
             <div class="d-flex align-items-center justify-content-between">
                 <p>Author : ${name  ? name  : "N/A"}</p>
                 <img class="author-image" src="${img}">
             </div>
-            <p>Total View : ${total_view   ? total_view  : "N/A"}</p>
-            <p>Publish Date : ${published_date.length >10 ? published_date.slice(0,11): published_date}</p>
+
+           
+            <h5 class"mb-3">Total View : ${total_view   ? total_view  : "N/A"}</h5>
+            <h6 >Publish Date : ${published_date.length > 10 ? published_date.slice(0, 11): published_date}}</h6>
+
+            
+
+            <p> ${details.length < 200 ? details: details.slice(0,200)+ '...'}</p>
+
+            <button type="button" class="btn btn-danger mt-3" data-bs-dismiss="modal">Close</button>
         </div>
     
     `
