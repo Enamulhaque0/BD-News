@@ -1,6 +1,3 @@
-
-
-
 const loadAllCategories = async () => {
   const res = await fetch(
     "https://openapi.programming-hero.com/api/news/categories"
@@ -10,64 +7,63 @@ const loadAllCategories = async () => {
 };
 
 const categoriesDisplay = async () => {
-const data = await loadAllCategories();
+  const data = await loadAllCategories();
 
-const ulContainer = document.getElementById("categories-container");
+  const ulContainer = document.getElementById("categories-container");
 
-data.forEach((categories) => {
-  const {category_name, category_id}= categories
-  
+  data.forEach((categories) => {
+    const { category_name, category_id } = categories;
 
+    const li = document.createElement("li");
 
-
-  const li = document.createElement('li')
-  
-  li.innerHTML=`
+    li.innerHTML = `
      <a  class="px-4  text-secondary" href="#" onclick="newsCategory('${category_id}')">${category_name}</a>
   
-  `
-  ulContainer.appendChild(li)
-  
+  `;
+    ulContainer.appendChild(li);
   });
-
 };
 
 categoriesDisplay();
 
+const newsCategory = async (category_id) => {
+  const spinner = document.getElementById("spinner-container");
+  spinner.classList.remove("d-none");
 
+  const res = await fetch(
+    `https://openapi.programming-hero.com/api/news/category/${category_id}`
+  );
+  const data = await res.json();
 
-const newsCategory = async (category_id)=>{
+  const allData = data.data;
+  displayCategory(allData);
+};
 
-  const spinner = document.getElementById('spinner-container')
-  spinner.classList.remove("d-none")
+const displayCategory = async (allData) => {
+  let foundIteam = allData.length;
+  const iteam = document.getElementById("found-iteam");
+  iteam.innerText = foundIteam;
 
-const res= await fetch(`https://openapi.programming-hero.com/api/news/category/${category_id}`)
-const data= await res.json()
+  if (foundIteam === 0) {
+    let notFound = document.getElementById("nofound-data");
+    notFound.classList.remove("d-none");
+  } else {
+    let notFound = document.getElementById("nofound-data");
+    notFound.classList.add("d-none");
+  }
 
-const allData = data.data
-displayCategory(allData)
-}
+  const cardContainer = document.getElementById("categories-card");
+  const spinner = document.getElementById("spinner-container");
+  spinner.classList.add("d-none");
+  cardContainer.textContent = "";
 
+  allData.forEach((data) => {
+    const { _id, total_view, details, author, title, image_url } = data;
+    const { name, img, published_date } = author;
+    const div = document.createElement("div");
+    div.classList.add("col");
 
-const displayCategory = async(allData)=>{
-let foundIteam = allData.length
-
-const iteam = document.getElementById("found-iteam")
-iteam.innerText= foundIteam
-
-const cardContainer= document.getElementById("categories-card")
-const spinner = document.getElementById('spinner-container')
-spinner.classList.add("d-none")
-cardContainer.textContent="";
-
-
-allData.forEach(data => {
-const {_id, total_view, details, author, title, image_url}= data
-const {name,img,published_date} = author
-const div = document.createElement("div")
- div.classList.add("col")
-
- div.innerHTML= `
+    div.innerHTML = `
  <div class="card mt-5 mb-4">
             <div class="row">
 
@@ -77,13 +73,21 @@ const div = document.createElement("div")
 
                     <div class="col-md-8">
                         <div class="card-body p-4">
-                            <h5 class="card-title">${title.length > 60 ? title.slice(0, 60)+ '...' :title}</h5>
-                            <p class="card-text">${details.length > 350 ? details.slice(0, 350)+ '...' : details}</p>
+                            <h5 class="card-title">${
+                              title.length > 60
+                                ? title.slice(0, 60) + "..."
+                                : title
+                            }</h5>
+                            <p class="card-text">${
+                              details.length > 350
+                                ? details.slice(0, 350) + "..."
+                                : details
+                            }</p>
 
                             <div class="d-flex justify-content-between align-items-center mt-3">
                                     <img class="author-img" src="${img}">
                                     <div class="ps-2">
-                                        <p>${name ? name  : "N/A"}</p>
+                                        <p>${name ? name : "N/A"}</p>
                                         
                                         <p>${published_date}</p>
                                     </div>
@@ -102,71 +106,60 @@ const div = document.createElement("div")
  
  
  
- `
+ `;
 
- cardContainer.appendChild(div)
- 
- 
- 
-}  ) 
+    cardContainer.appendChild(div);
+  });
+};
 
+const newsDetails = async (_id) => {
+  const res = await fetch(
+    `https://openapi.programming-hero.com/api/news/${_id}`
+  );
 
-  
-}
+  const data = await res.json();
 
+  const allData = data.data;
 
+  displayNewsDetails(allData);
+};
 
-const newsDetails= async (_id)=>{
-  const res= await fetch(`https://openapi.programming-hero.com/api/news/${_id}`)
+const displayNewsDetails = async (allData) => {
+  const data = allData.forEach((data) => {
+    const { total_view, author, thumbnail_url, title, details } = data;
+    const { name, published_date, img } = author;
 
-  const data =  await res.json()
-  
-  const allData = data.data
-
-displayNewsDetails(allData)
-
-
-}
-
-
-const displayNewsDetails = async (allData) =>{
- 
-  
-
-   const data = allData.forEach(data=>{
-
-    const {total_view, author,thumbnail_url,title,details}= data
-    const {name,published_date, img} = author
-    
     // console.log(total_view)
 
-    const modalBody= document.getElementById('modal-iteam')
+    const modalBody = document.getElementById("modal-iteam");
 
-    modalBody.innerHTML= `
+    modalBody.innerHTML = `
     
     <div class="p-4">
 
             <h4>${title}</h4>
             <div class="d-flex align-items-center justify-content-between">
-                <p>Author : ${name  ? name  : "N/A"}</p>
+                <p>Author : ${name ? name : "N/A"}</p>
                 <img class="author-image" src="${img}">
             </div>
 
            
-            <h5 class"mb-3">Total View : ${total_view   ? total_view  : "N/A"}</h5>
-            <h6 >Publish Date : ${published_date.length > 10 ? published_date.slice(0, 11): published_date}}</h6>
+            <h5 class"mb-3">Total View : ${total_view ? total_view : "N/A"}</h5>
+            <h6 >Publish Date : ${
+              published_date.length > 10
+                ? published_date.slice(0, 11)
+                : published_date
+            }}</h6>
 
             
 
-            <p> ${details.length < 200 ? details: details.slice(0,200)+ '...'}</p>
+            <p> ${
+              details.length < 200 ? details : details.slice(0, 200) + "..."
+            }</p>
 
             <button type="button" class="btn btn-danger mt-3" data-bs-dismiss="modal">Close</button>
         </div>
     
-    `
-   })
-
-  
-
-}
-
+    `;
+  });
+};
