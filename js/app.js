@@ -38,3 +38,15 @@ const data= await res.json()
 return data.data
 }
 
+const displayCategory = async() =>{
+
+    const data= await newsCategory()
+    
+    data.forEach(category =>{ 
+     const {news_id,}=category
+
+
+        })
+
+
+}
