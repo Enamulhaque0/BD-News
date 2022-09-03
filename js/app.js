@@ -62,7 +62,7 @@ cardContainer.textContent="";
 
 
 allData.forEach(data => {
-const {_id, total_view, details, author, title, thumbnail_url}= data
+const {_id, total_view, details, author, title, image_url}= data
 const {name,img,published_date} = author
 const div = document.createElement("div")
  div.classList.add("col")
@@ -72,7 +72,7 @@ const div = document.createElement("div")
             <div class="row">
 
                     <div class="col-md-4">
-                        <img src="${thumbnail_url}" class="img-fluid rounded-start h-100" alt="...">
+                        <img src="${image_url}" class="img-fluid rounded-start h-100" alt="...">
                     </div>   
 
                     <div class="col-md-8">
