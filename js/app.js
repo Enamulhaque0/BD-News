@@ -1,24 +1,25 @@
-const loadAllcategory = async () => {
+const loadAllCategories = async () => {
   const res = await fetch(
     "https://openapi.programming-hero.com/api/news/categories"
   );
   const data = await res.json();
-
   return data.data.news_category;
 };
 
-const categoryDisplay = async () => {
-const data = await loadAllcategory();
+const categoriesDisplay = async () => {
+const data = await loadAllCategories();
 
-const ulContainer = document.getElementById("category-container");
+const ulContainer = document.getElementById("categories-container");
 
-data.forEach((category) => {
-  const {category_name}= category
-    
+data.forEach((categories) => {
+  const {category_name, category_id}= categories
+  
+
+
+
   const li = document.createElement('li')
-
   li.innerHTML=`
-  <a class="px-4 text-secondary" href="#">${category_name}</a>
+     <a  class="px-4 text-secondary" href="#" onclick="newsCategory('${category_id}')">${category_name}</a>
   
   `
   ulContainer.appendChild(li)
@@ -26,4 +27,14 @@ data.forEach((category) => {
 
 };
 
-categoryDisplay();
+categoriesDisplay();
+
+
+
+const newsCategory =async (id)=>{
+const res= await fetch(`https://openapi.programming-hero.com/api/news/category/${id}`)
+const data= await res.json()
+
+return data.data
+}
+
