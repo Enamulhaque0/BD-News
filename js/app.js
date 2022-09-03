@@ -40,6 +40,11 @@ const newsCategory = async (category_id) => {
 };
 
 const displayCategory = async (allData) => {
+  allData.sort((a,b)=>{
+
+    return b.total_view - a.total_view
+  })
+  
   let foundIteam = allData.length;
   const iteam = document.getElementById("found-iteam");
   iteam.innerText = foundIteam;
@@ -51,6 +56,7 @@ const displayCategory = async (allData) => {
     let notFound = document.getElementById("nofound-data");
     notFound.classList.add("d-none");
   }
+ 
 
   const cardContainer = document.getElementById("categories-card");
   const spinner = document.getElementById("spinner-container");
@@ -58,6 +64,7 @@ const displayCategory = async (allData) => {
   cardContainer.textContent = "";
 
   allData.forEach((data) => {
+    
     const { _id, total_view, details, author, title, image_url } = data;
     const { name, img, published_date } = author;
     const div = document.createElement("div");
