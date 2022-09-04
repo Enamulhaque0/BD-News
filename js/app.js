@@ -17,7 +17,7 @@ const categoriesDisplay = async () => {
     const li = document.createElement("li");
 
     li.innerHTML = `
-     <a  class="px-4  text-secondary" href="#" onclick="newsCategory('${category_id}')">${category_name}</a>
+     <a  class="px-4 text-secondary" href="#" onclick="newsCategory('${category_id}')">${category_name}</a>
   
   `;
     ulContainer.appendChild(li);
@@ -40,11 +40,10 @@ const newsCategory = async (category_id) => {
 };
 
 const displayCategory = async (allData) => {
-  allData.sort((a,b)=>{
+  allData.sort((a, b) => {
+    return b.total_view - a.total_view;
+  });
 
-    return b.total_view - a.total_view
-  })
-  
   let foundIteam = allData.length;
   const iteam = document.getElementById("found-iteam");
   iteam.innerText = foundIteam;
@@ -56,7 +55,6 @@ const displayCategory = async (allData) => {
     let notFound = document.getElementById("nofound-data");
     notFound.classList.add("d-none");
   }
- 
 
   const cardContainer = document.getElementById("categories-card");
   const spinner = document.getElementById("spinner-container");
@@ -64,7 +62,6 @@ const displayCategory = async (allData) => {
   cardContainer.textContent = "";
 
   allData.forEach((data) => {
-    
     const { _id, total_view, details, author, title, image_url } = data;
     const { name, img, published_date } = author;
     const div = document.createElement("div");
@@ -86,8 +83,8 @@ const displayCategory = async (allData) => {
                                 : title
                             }</h5>
                             <p class="card-text">${
-                              details.length > 350
-                                ? details.slice(0, 350) + "..."
+                              details.length > 365
+                                ? details.slice(0, 365) + "..."
                                 : details
                             }</p>
 
@@ -131,12 +128,11 @@ const newsDetails = async (_id) => {
   displayNewsDetails(allData);
 };
 
+// modal
 const displayNewsDetails = async (allData) => {
   const data = allData.forEach((data) => {
-    const { total_view, author, thumbnail_url, title, details } = data;
+    const { total_view, author, title, details } = data;
     const { name, published_date, img } = author;
-
-    // console.log(total_view)
 
     const modalBody = document.getElementById("modal-iteam");
 
